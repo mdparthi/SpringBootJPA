@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.qht.boot.jpa.model.Person;
 import com.qht.boot.jpa.repository.PersonRepository;
 
+
 @SpringBootApplication
 @RestController
 public class SpringBootJpaApplication {
@@ -54,6 +55,15 @@ public class SpringBootJpaApplication {
 		return repository.findByFirstName(fName);
 		
 	}
+
+	@RequestMapping("/person/update/{id}/name/{name}")
+	public Person updatePerson(@PathVariable("id") Long id, @PathVariable("name") String name) {
+		Person person = repository.findOne(id);
+		person.setFirstName(name);
+		repository.save(person);
+		return person;
+	}
+	
 	
 
 	public static void main(String[] args) {
