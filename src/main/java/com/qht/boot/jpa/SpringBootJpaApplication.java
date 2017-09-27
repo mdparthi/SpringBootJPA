@@ -5,6 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,8 +69,19 @@ public class SpringBootJpaApplication {
 	}
 	
 	
+	@RequestMapping("/page")
+	public String pageResult() {
+		
+		Page<Person> page = repository.findAll(new PageRequest(1, 2, Direction.ASC, "firstName"));
+		
+		for(Person person : page) {
+			System.out.println(person.getId() + " " + person.getFirstName());
+		}
+		return "Page iterated";
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootJpaApplication.class, args);
+		
 	}
 }
